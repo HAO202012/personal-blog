@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拾光集 · 标签</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container">
+      <a class="site" href="/">拾光集</a>
+      <nav>
+        <a href="/">首页</a>
+        <a href="/archive.html">归档</a>
+        <a href="/tags.html" class="active">标签</a>
+        <a href="/about.html">关于</a>
+        <a href="/search.html">搜索</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h1 class="page-title">标签云</h1>
+    <div class="tag-cloud" id="tags"></div>
+  </main>
+  <footer><div class="container">© 2026 拾光集 · Powered by Cloudflare Workers</div></footer>
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      const tags = await api('/api/tags');
+      document.getElementById('tags').innerHTML = tags.length
+        ? tags.map(tagPillLink).join('')
+        : '<div class="empty">暂无标签</div>';
+    })().catch((e) => {
+      document.getElementById('tags').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拾光集 · 搜索</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container">
+      <a class="site" href="/">拾光集</a>
+      <nav>
+        <a href="/">首页</a>
+        <a href="/archive.html">归档</a>
+        <a href="/tags.html">标签</a>
+        <a href="/about.html">关于</a>
+        <a href="/search.html" class="active">搜索</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h1 class="page-title">搜索</h1>
+    <form id="form" style="margin-bottom: 24px; display: flex; gap: 8px;">
+      <input class="input" id="q" placeholder="搜索标题或正文…" value="" />
+      <button class="btn primary" type="submit">搜索</button>
+    </form>
+    <div id="result"></div>
+    <div class="pagination" id="pagination"></div>
+  </main>
+  <footer><div class="container">© 2026 拾光集 · Powered by Cloudflare Workers</div></footer>
+  <script src="/js/main.js"></script>
+  <script>
+    const p = new URLSearchParams(location.search);
+    document.getElementById('q').value = p.get('q') || '';
+    document.getElementById('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      location.href = '/search.html?' + qs({ q: document.getElementById('q').value.trim() });
+    });
+    (async () => {
+      const q = (p.get('q') || '').trim();
+      if (!q) return;
+      const page = Number(p.get('page')) || 1;
+      const data = await api('/api/search?' + qs({ q, page, size: 10 }));
+      document.getElementById('result').innerHTML =
+        `<p class="page-sub">找到 ${data.total} 篇与「${esc(q)}」相关的文章</p>`;
+      renderPostList(document.getElementById('result'), data.items, '没有找到相关文章');
+      renderPagination(document.getElementById('pagination'), data, (n) => '/search.html?' + qs({ q, page: n }));
+    })().catch((e) => {
+      document.getElementById('result').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+    });
+  </script>
+</body>
+</html>

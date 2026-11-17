@@ -1,0 +1,11 @@
+{
+  "wave": "W1",
+  "agent": "research/market",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/research/market.md"],
+  "summary": "竞品功能集：Hexo/Astro 缺在线后台；Halo/WordPress 重。最小完备集=文章列表详情/分类标签归档/搜索/登录后台发布/关于页。结论：按动态博客最小完备集裁剪，无需插件体系。",
+  "decisions": [],
+  "open_questions": [],
+  "risks": []
+}

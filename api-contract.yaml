@@ -1,0 +1,62 @@
+# API 契约 v1（W3 · architect）—— G2 冻结对象
+# 约定：成功返回裸 JSON；错误统一 { error: string }；所有列表接口 ?page=1&size=10，返回 { items, total, page, size }
+
+base: /api
+auth: >
+  管理接口（/api/admin/*，除 POST /api/admin/login）要求 cookie blog_session，
+  值为 base64(payload).hex(hmac-sha256(payload, SESSION_SECRET))，payload 含 { exp }。
+  无效/过期返回 401 { error }。
+
+public:
+  GET /posts:
+    query: { page: int=1, size: int<=50, category: slug?, tag: slug? }
+    200: { items: PostSummary[], total: int, page: int, size: int }
+    note: 仅 published，按 published_at 倒序；category/tag 为可选筛选
+  GET /posts/:slug:
+    200: Post(full, 仅 published)
+    404: { error }
+  GET /categories:
+    200: Category[]  # 含每个分类文章数
+  GET /tags:
+    200: Tag[]       # 含每个标签文章数
+  GET /archive:
+    200: "[{ year: int, months: [{ month: int, posts: PostSummary[] }] }]"
+  GET /search:
+    query: { q: string必填, page }
+    200: { items: PostSummary[], total, page, size }  # 标题或正文 LIKE 匹配，仅 published
+
+admin:
+  POST /admin/login:
+    body: { password: string }
+    200: { ok: true } + Set-Cookie blog_session
+    401: { error }
+  POST /admin/logout:
+    200: { ok: true } + 清除 cookie
+  GET /admin/posts:
+    200: { items: Post[](含 draft), total, page, size }
+  GET /admin/posts/:id:
+    200: Post
+    404: { error }
+  POST /admin/posts:
+    body: PostInput  # { title, slug, summary?, content, categoryId, tags: string[], status: draft|published }
+    201: Post；409 当 slug 重复；400 校验失败
+  PUT /admin/posts/:id:
+    body: PostInput
+    200: Post；404/409/400 同上
+  DELETE /admin/posts/:id:
+    200: { ok: true }；404: { error }
+
+models:
+  PostSummary: "{ id, slug, title, summary, publishedAt, categoryName, tags: string[], readingMinutes }"
+  Post: "PostSummary + { content, status, categoryId, createdAt, updatedAt }"
+  Category: "{ id, name, slug, postCount }"
+  Tag: "{ id, name, slug, postCount }"
+
+error_codes:
+  400: 参数校验失败
+  401: 未登录或会话过期
+  404: 资源不存在
+  409: slug 冲突
+  500: 服务器内部错误 { error: "internal" }
+
+frozen: true   # G2 通过（2026-11-16，见 gates.md）

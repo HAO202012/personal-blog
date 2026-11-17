@@ -1,0 +1,11 @@
+{
+  "wave": "W2",
+  "agent": "prd-writer",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/prd.md"],
+  "summary": "PRD 定稿：F1 前台 7 项（列表分页/详情/分类/标签/归档/搜索/关于）+ F2 后台 4 项（登录/编辑器/管理列表/发布即生效）；数据模型 posts/categories/tags/post_tags；非功能：响应式、鉴权哈希、参数化 SQL、Workers 兼容；页面清单 10 个；验收清单 5 条可测。",
+  "decisions": ["评论/多用户/RSS/部署本轮均不做，留扩展点"],
+  "open_questions": [],
+  "risks": []
+}

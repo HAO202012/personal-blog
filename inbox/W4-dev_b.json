@@ -1,0 +1,11 @@
+{
+  "wave": "W4",
+  "agent": "dev/b",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/public/index.html", "project/public/post.html", "project/public/category.html", "project/public/tags.html", "project/public/tag.html", "project/public/archive.html", "project/public/search.html", "project/public/about.html", "project/public/admin-login.html", "project/public/admin.html", "project/public/admin-editor.html", "project/public/css/main.css"],
+  "summary": "前端完成：11 页面全部按 ui-spec 实现（含 query 路由、分页、归档树、搜索框、后台表格/编辑器双栏预览）+ css/main.css 落地 tokens + js/main.js（api/esc/renderMarkdown 去脚本标签/卡片/分页）+ scripts/build-vendor.mjs（esbuild 离线打包 marked+highlight.js 到 public/vendor）。主要产物 12 项见 artifacts；js/main.js 与 scripts/build-vendor.mjs 亦为本角色产出。",
+  "decisions": ["标签 pill 链接复用 /tag.html?slug=", "删除操作 confirm 后调 DELETE"],
+  "open_questions": [],
+  "risks": []
+}

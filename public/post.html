@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拾光集 · 文章</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/vendor/github.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container">
+      <a class="site" href="/">拾光集</a>
+      <nav>
+        <a href="/">首页</a>
+        <a href="/archive.html">归档</a>
+        <a href="/tags.html">标签</a>
+        <a href="/about.html">关于</a>
+        <a href="/search.html">搜索</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div id="article" class="article"></div>
+  </main>
+  <footer><div class="container">© 2026 拾光集 · Powered by Cloudflare Workers</div></footer>
+  <script src="/vendor/markdown.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      const slug = new URLSearchParams(location.search).get('slug');
+      if (!slug) throw new Error('缺少 slug 参数');
+      const p = await api('/api/posts/' + encodeURIComponent(slug));
+      document.title = p.title + ' · 拾光集';
+      const tagHtml = p.tags.map((t) => `<a class="pill" href="/tag.html?slug=${encodeURIComponent(t)}">${esc(t)}</a>`).join('');
+      document.getElementById('article').innerHTML = `
+        <h1>${esc(p.title)}</h1>
+        <div class="meta">${metaLine(p)} <span class="pills">${tagHtml}</span></div>
+        <div class="content" id="content"></div>`;
+      renderMarkdown(p.content, document.getElementById('content'));
+    })().catch((e) => {
+      document.getElementById('article').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+    });
+  </script>
+</body>
+</html>

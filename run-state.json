@@ -1,0 +1,158 @@
+{
+  "version": 2,
+  "current_wave": "DONE",
+  "waves": {
+    "W0": {
+      "status": "approved",
+      "agents": {
+        "lead": {
+          "status": "done",
+          "model": "mid",
+          "prompt": "project/outbox/W0-lead.prompt.md",
+          "tool_call_cap": 5
+        }
+      }
+    },
+    "W1": {
+      "status": "approved",
+      "agents": {
+        "research/market": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W1-research_market.prompt.md",
+          "tool_call_cap": 15
+        },
+        "research/user": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W1-research_user.prompt.md",
+          "tool_call_cap": 15
+        },
+        "research/tech": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W1-research_tech.prompt.md",
+          "tool_call_cap": 15
+        },
+        "research/compliance": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W1-research_compliance.prompt.md",
+          "tool_call_cap": 15
+        }
+      }
+    },
+    "W2": {
+      "status": "approved",
+      "agents": {
+        "prd-writer": {
+          "status": "done",
+          "model": "strong",
+          "prompt": "project/outbox/W2-prd-writer.prompt.md",
+          "tool_call_cap": 8
+        }
+      }
+    },
+    "W3": {
+      "status": "approved",
+      "agents": {
+        "architect": {
+          "status": "done",
+          "model": "strong",
+          "prompt": "project/outbox/W3-architect.prompt.md",
+          "tool_call_cap": 10
+        }
+      }
+    },
+    "W3R": {
+      "status": "approved",
+      "agents": {
+        "review/arch": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W3R-review_arch.prompt.md",
+          "tool_call_cap": 5
+        }
+      }
+    },
+    "W3D": {
+      "status": "approved",
+      "agents": {
+        "design/ui": {
+          "status": "done",
+          "model": "mid",
+          "prompt": "project/outbox/W3D-design_ui.prompt.md",
+          "tool_call_cap": 10
+        }
+      }
+    },
+    "W4": {
+      "status": "approved",
+      "agents": {
+        "dev/a": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W4-dev_a.prompt.md",
+          "tool_call_cap": 20
+        },
+        "dev/b": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W4-dev_b.prompt.md",
+          "tool_call_cap": 20
+        },
+        "test/contract": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W4-test_contract.prompt.md",
+          "tool_call_cap": 12
+        }
+      }
+    },
+    "W5": {
+      "status": "approved",
+      "agents": {
+        "lead": {
+          "status": "done",
+          "model": "mid",
+          "prompt": "project/outbox/W5-lead.prompt.md",
+          "tool_call_cap": 6
+        }
+      }
+    },
+    "W6": {
+      "status": "approved",
+      "agents": {
+        "release": {
+          "status": "done",
+          "model": "fast",
+          "prompt": "project/outbox/W6-release.prompt.md",
+          "tool_call_cap": 6
+        }
+      }
+    }
+  },
+  "gates": {
+    "G1": {
+      "status": "approved",
+      "wave": "W2",
+      "by": "用户"
+    },
+    "G2": {
+      "status": "approved",
+      "wave": "W3R",
+      "by": "用户"
+    },
+    "tests_green": {
+      "status": "approved",
+      "wave": "W5",
+      "by": "lead"
+    },
+    "acceptance": {
+      "status": "approved",
+      "wave": "W6",
+      "by": "用户"
+    }
+  },
+  "updated_at": "2026-11-16T16:13:39"
+}

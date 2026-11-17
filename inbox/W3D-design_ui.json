@@ -1,0 +1,11 @@
+{
+  "wave": "W3D",
+  "agent": "design/ui",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/design/ui-spec.md", "project/design/tokens.yaml"],
+  "summary": "UI 规格定稿：验收条件→页面映射覆盖 PRD 全部 10 页；共享组件 TopNav/PostCard/Pagination/TagCloud/Editor；交互：编辑器双栏实时预览、保存草稿/发布双按钮、删除 confirm、401 跳登录；布局 720px 容器、≤640px 单栏；tokens.yaml 定义颜色/字体/间距/radius/shadow。",
+  "decisions": ["内容优先浅色博客风", "标签/分类跳转统一走 query 参数"],
+  "open_questions": [],
+  "risks": []
+}

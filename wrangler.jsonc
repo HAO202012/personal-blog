@@ -1,0 +1,19 @@
+{
+  "name": "personal-blog",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "./public"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "blog-db",
+      "database_id": "local-blog-db"
+    }
+  ],
+  "vars": {
+    "ADMIN_PASSWORD": "admin123",
+    "SESSION_SECRET": "local-dev-secret-do-not-use-in-prod"
+  }
+}

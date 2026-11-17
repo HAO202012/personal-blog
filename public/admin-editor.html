@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拾光集 · 编辑文章</title>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/vendor/github.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container">
+      <a class="site" href="/">拾光集</a>
+      <nav>
+        <a href="/admin.html">文章管理</a>
+        <a href="/admin-editor.html" class="active">新建文章</a>
+        <a href="/" id="logout">退出登录</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container wide">
+    <h1 class="page-title" id="title">新建文章</h1>
+    <div class="editor-grid">
+      <div>
+        <div class="field"><label>标题</label><input class="input" id="title-input" placeholder="文章标题" /></div>
+        <div class="field"><label>Slug（URL 标识，小写字母/数字/连字符）</label><input class="input" id="slug" placeholder="my-first-post" /></div>
+        <div class="field"><label>摘要</label><input class="input" id="summary" placeholder="列表页展示的摘要" /></div>
+        <div class="field"><label>分类</label><select class="select" id="category"></select></div>
+        <div class="field"><label>标签（逗号分隔）</label><input class="input" id="tags" placeholder="Cloudflare, 随笔" /></div>
+        <div class="field"><label>正文（Markdown）</label><textarea class="textarea" id="content" placeholder="# 标题&#10;&#10;正文支持 Markdown 与代码块"></textarea></div>
+        <div class="error-msg" id="error"></div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn" id="save-draft">保存草稿</button>
+          <button class="btn primary" id="save-publish">发布</button>
+          <button class="btn danger" id="del" style="display: none;">删除</button>
+        </div>
+      </div>
+      <div>
+        <label style="font-size: 13px; color: var(--text-secondary)">实时预览</label>
+        <div class="preview content" id="preview"></div>
+      </div>
+    </div>
+  </main>
+  <script src="/vendor/markdown.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get('id');
+    let categories = [];
+    let current = null;
+
+    document.getElementById('logout').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await api('/api/admin/logout', { method: 'POST' });
+      location.href = '/admin-login.html';
+    });
+
+    const contentEl = document.getElementById('content');
+    contentEl.addEventListener('input', () => {
+      renderMarkdown(contentEl.value, document.getElementById('preview'));
+    });
+
+    function collect(status) {
+      return {
+        title: document.getElementById('title-input').value.trim(),
+        slug: document.getElementById('slug').value.trim(),
+        summary: document.getElementById('summary').value.trim(),
+        content: contentEl.value,
+        categoryId: Number(document.getElementById('category').value) || null,
+        tags: document.getElementById('tags').value.split(/[,，]/).map((s) => s.trim()).filter(Boolean),
+        status,
+      };
+    }
+
+    async function save(status) {
+      const error = document.getElementById('error');
+      error.textContent = '';
+      const body = JSON.stringify(collect(status));
+      try {
+        if (current) {
+          await api('/api/admin/posts/' + current.id, { method: 'PUT', body });
+        } else {
+          const created = await api('/api/admin/posts', { method: 'POST', body });
+          location.href = '/admin-editor.html?id=' + created.id;
+          return;
+        }
+        error.textContent = '已保存';
+        if (status === 'published') setTimeout(() => (location.href = '/admin.html'), 500);
+      } catch (err) {
+        error.textContent = err.message;
+      }
+    }
+
+    document.getElementById('save-draft').addEventListener('click', () => save('draft'));
+    document.getElementById('save-publish').addEventListener('click', () => save('published'));
+
+    (async () => {
+      categories = await api('/api/categories');
+      document.getElementById('category').innerHTML =
+        '<option value="">未分类</option>' +
+        categories.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+      if (id) {
+        current = await api('/api/admin/posts/' + id);
+        document.getElementById('title').textContent = '编辑文章';
+        document.getElementById('title-input').value = current.title;
+        document.getElementById('slug').value = current.slug;
+        document.getElementById('summary').value = current.summary;
+        document.getElementById('category').value = current.categoryId || '';
+        document.getElementById('tags').value = current.tags.join(', ');
+        contentEl.value = current.content;
+        document.getElementById('del').style.display = '';
+        renderMarkdown(current.content, document.getElementById('preview'));
+      }
+    })().catch((e) => {
+      if (e.status === 401) location.href = '/admin-login.html';
+      else document.getElementById('error').textContent = e.message;
+    });
+
+    document.getElementById('del').addEventListener('click', async () => {
+      if (!current || !confirm('确定删除这篇文章？删除后不可恢复。')) return;
+      await api('/api/admin/posts/' + current.id, { method: 'DELETE' });
+      location.href = '/admin.html';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拾光集 · 文章管理</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container">
+      <a class="site" href="/">拾光集</a>
+      <nav>
+        <a href="/admin.html" class="active">文章管理</a>
+        <a href="/admin-editor.html">新建文章</a>
+        <a href="/" id="logout">退出登录</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container wide">
+    <h1 class="page-title">文章管理</h1>
+    <table class="admin-table" id="table">
+      <thead><tr><th>标题</th><th>状态</th><th>分类</th><th>发布时间</th><th>操作</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="5">加载中…</td></tr></tbody>
+    </table>
+  </main>
+  <script src="/js/main.js"></script>
+  <script>
+    document.getElementById('logout').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await api('/api/admin/logout', { method: 'POST' });
+      location.href = '/admin-login.html';
+    });
+    (async () => {
+      const data = await api('/api/admin/posts?page=1&size=100');
+      const rows = data.items.map((p) => `
+        <tr>
+          <td><a href="/admin-editor.html?id=${p.id}">${esc(p.title)}</a></td>
+          <td><span class="badge ${p.status}">${p.status === 'published' ? '已发布' : '草稿'}</span></td>
+          <td>${esc(p.categoryName || '未分类')}</td>
+          <td>${esc((p.publishedAt || '').slice(0, 16))}</td>
+          <td>
+            <a href="/post.html?slug=${encodeURIComponent(p.slug)}" target="_blank">预览</a>
+            &nbsp;<a href="/admin-editor.html?id=${p.id}">编辑</a>
+            &nbsp;<a href="#" class="del" data-id="${p.id}" style="color: var(--danger)">删除</a>
+          </td>
+        </tr>`).join('');
+      document.getElementById('rows').innerHTML =
+        rows || '<tr><td colspan="5" class="empty">还没有文章，点右上角「新建文章」开始写作</td></tr>';
+      document.querySelectorAll('.del').forEach((a) => {
+        a.addEventListener('click', async (e) => {
+          e.preventDefault();
+          if (!confirm('确定删除这篇文章？删除后不可恢复。')) return;
+          await api('/api/admin/posts/' + a.dataset.id, { method: 'DELETE' });
+          location.reload();
+        });
+      });
+    })().catch((e) => {
+      if (e.status === 401) location.href = '/admin-login.html';
+      else document.getElementById('rows').innerHTML = `<tr><td colspan="5">${esc(e.message)}</td></tr>`;
+    });
+  </script>
+</body>
+</html>

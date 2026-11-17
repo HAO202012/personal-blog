@@ -1,0 +1,58 @@
+# 机读所有权表（W3 · architect 唯一写入；validate_handoff.py --check-ownership 依据）
+# 注意：骨架最小 YAML 解析器只支持块风格，不支持内联 flow 映射
+version: 1
+paths:
+  - path: project/wrangler.jsonc
+    owner: dev/a
+    writable: true
+  - path: project/package.json
+    owner: dev/a
+    writable: true
+  - path: project/tsconfig.json
+    owner: dev/a
+    writable: true
+  - path: project/schema.sql
+    owner: dev/a
+    writable: true
+  - path: project/seed.sql
+    owner: dev/a
+    writable: true
+  - path: project/src/**
+    owner: dev/a
+    writable: true
+  - path: project/ci/modules/dev-a.sh
+    owner: dev/a
+    writable: true
+  - path: project/public/**
+    owner: dev/b
+    writable: true
+  - path: project/scripts/**
+    owner: dev/b
+    writable: true
+  - path: project/ci/modules/dev-b.sh
+    owner: dev/b
+    writable: true
+  - path: project/tests/**
+    owner: test/contract
+    writable: true
+  - path: project/architecture.md
+    owner: architect
+    writable: true
+  - path: project/api-contract.yaml
+    owner: architect
+    writable: true
+  - path: project/ci/*.sh
+    owner: architect
+    writable: true
+  - path: project/design/**
+    owner: design/ui
+    writable: true
+  - path: project/deploy.md
+    owner: release
+    writable: true
+  - path: project/brief.md
+    owner: lead
+    writable: true
+  - path: project/gates.md
+    owner: lead
+    writable: true

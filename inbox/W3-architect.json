@@ -1,0 +1,11 @@
+{
+  "wave": "W3",
+  "agent": "architect",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/architecture.md", "project/api-contract.yaml", "project/ownership.yaml", "project/ci/setup-db.sh", "project/ci/typecheck.sh", "project/ci/run-tests.sh", "project/ci/run-dev.sh"],
+  "summary": "架构定稿：ADR-01 单 Worker 单体（Hono+D1+Assets，本地 wrangler dev）；ADR-02 env 密码+HMAC 签名 cookie；ADR-03 db.ts 全参数化；ADR-04 客户端 marked+hljs（vendor 离线打包）。契约覆盖 public 7 组+admin 6 端点；所有权表互斥无空洞；CI 五脚本骨架齐备。",
+  "decisions": ["否决 Pages Functions/OpenNext/KV 存文章", "前端静态页+query 路由，Worker 不参与前台路由"],
+  "open_questions": [],
+  "risks": ["搜索 LIKE 无中文分词（PRD 可接受）"]
+}

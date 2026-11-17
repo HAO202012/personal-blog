@@ -1,0 +1,11 @@
+{
+  "wave": "W4",
+  "agent": "test/contract",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/tests/contract.test.mjs"],
+  "summary": "契约测试完成（不读 src，仅依据冻结契约）：14 用例覆盖前台 7 项（发布列表/详情 404/分类标签计数/归档分组/搜索/筛选）+ 管理 7 项（401/登录/含草稿列表/创建 201-409-400/发布即生效/更新/删除/登出）。运行时 esbuild 打包+node:sqlite 提供 D1 兼容 binding，app.fetch 直调，不依赖 workerd。",
+  "decisions": ["测试运行时与业务运行时分离，规避本机 workerd 兼容问题"],
+  "open_questions": [],
+  "risks": ["node:sqlite 为实验性 API，升级 Node 需回归"]
+}

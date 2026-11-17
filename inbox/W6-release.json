@@ -1,0 +1,11 @@
+{
+  "wave": "W6",
+  "agent": "release",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/deploy.md"],
+  "summary": "本地部署验收完成（未部署 Cloudflare）：npm run dev:local 启动成功，前台 8 页+登录页全部 200；验收清单 5 项逐条通过并记录于 deploy.md；Cloudflare 部署预留步骤（d1 create/secret put/deploy）已写入文档；遗留风险 3 条（生产 Secrets、LIKE 搜索、双运行时差异需 wrangler dev 复测）。acceptance 通过。",
+  "decisions": ["验收口径=本地 dev:local，HTTP 端到端由契约测试覆盖"],
+  "open_questions": [],
+  "risks": []
+}

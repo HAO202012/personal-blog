@@ -1,0 +1,11 @@
+{
+  "wave": "W0",
+  "agent": "lead",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/brief.md", "project/gates.md"],
+  "summary": "立项契约已定稿：个人博客系统（前台浏览+管理后台），规模判定 L；约束为 Cloudflare Workers 原生技术栈、本地验收不部署；W1 四切面（market/user/tech/compliance）已写入 brief#7；用户一次性授权 G1/G2。",
+  "decisions": ["规模=L（新起服务+跨模块接口+文件数>8）", "本轮不执行 wrangler deploy"],
+  "open_questions": [],
+  "risks": ["wrangler 首次安装耗时", "D1 本地初始化依赖迁移脚本正确性"]
+}

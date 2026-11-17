@@ -1,0 +1,11 @@
+{
+  "wave": "W4",
+  "agent": "dev/a",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/wrangler.jsonc", "project/package.json", "project/tsconfig.json", "project/schema.sql", "project/seed.sql", "project/src/index.ts", "project/src/types.ts", "project/src/auth.ts", "project/src/db.ts", "project/src/routes/api.ts", "project/src/routes/admin.ts", "project/ci/modules/dev-a.sh"],
+  "summary": "后端完成：schema（4 表+3 索引）、seed（3 发布+1 草稿）、auth（HMAC 常量时间校验）、db.ts（列表/详情/分类/标签/归档/搜索/CRUD 全参数化）、routes（public+admin，401/404/409/400 齐备）、wrangler.jsonc（D1 binding+assets+vars）。开发期修复：SQLite 占位符混用、标签查重按 name+slug 双向。tsc --noEmit 通过。",
+  "decisions": ["session TTL 7 天 HttpOnly SameSite=Lax", "slug 校验 ^[a-z0-9-]+$"],
+  "open_questions": [],
+  "risks": []
+}

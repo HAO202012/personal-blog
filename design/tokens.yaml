@@ -1,0 +1,24 @@
+# 设计 tokens（W3D · design/ui）
+colors:
+  bg: "#faf9f7"
+  surface: "#ffffff"
+  text: "#1f2328"
+  text-secondary: "#57606a"
+  border: "#e6e2dc"
+  accent: "#2563eb"
+  accent-hover: "#1d4ed8"
+  danger: "#dc2626"
+  code-bg: "#f3f2ef"
+fonts:
+  heading: "Georgia, 'Songti SC', serif"
+  body: "-apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif"
+  mono: "'JetBrains Mono', Consolas, monospace"
+  size-base: "16px"
+  size-sm: "14px"
+  size-lg: "18px"
+spacing: [4, 8, 12, 16, 24, 32, 48, 64]
+radius:
+  sm: "4px"
+  md: "8px"
+shadow:
+  card: "0 1px 3px rgba(0,0,0,0.06)"

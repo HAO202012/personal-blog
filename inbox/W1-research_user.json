@@ -1,0 +1,11 @@
+{
+  "wave": "W1",
+  "agent": "research/user",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/research/user.md"],
+  "summary": "单作者画像；作者旅程：登录→写 Markdown→草稿/发布→归类打标签；读者旅程：首页→详情→分类标签→归档→搜索。验收级诉求：发布即生效、草稿不可见、移动端可读、发布≤3步。",
+  "decisions": [],
+  "open_questions": [],
+  "risks": []
+}

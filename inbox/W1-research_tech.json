@@ -1,0 +1,11 @@
+{
+  "wave": "W1",
+  "agent": "research/tech",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/research/tech.md"],
+  "summary": "选型 Workers+Hono+D1+Assets（单 Worker 服务 API 与静态前端），否决 Pages Functions/OpenNext/Astro。关键点：wrangler dev local 模拟 D1 无需账号；binding 在 wrangler.jsonc；需 schema.sql+seed.sql 与 npm run setup 一键初始化。Node 24/npm 11 就绪。",
+  "decisions": ["Workers+Hono+D1+Assets 单体", "手工脚手架而非 create-cloudflare"],
+  "open_questions": [],
+  "risks": ["workerd 在部分 Windows 主机存在兼容风险"]
+}

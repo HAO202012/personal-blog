@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拾光集 · 分类</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container">
+      <a class="site" href="/">拾光集</a>
+      <nav>
+        <a href="/">首页</a>
+        <a href="/archive.html">归档</a>
+        <a href="/tags.html">标签</a>
+        <a href="/about.html">关于</a>
+        <a href="/search.html">搜索</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h1 class="page-title" id="title">分类文章</h1>
+    <div id="posts"></div>
+    <div class="pagination" id="pagination"></div>
+  </main>
+  <footer><div class="container">© 2026 拾光集 · Powered by Cloudflare Workers</div></footer>
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      const p = new URLSearchParams(location.search);
+      const slug = p.get('slug');
+      if (!slug) throw new Error('缺少 slug 参数');
+      const cats = await api('/api/categories');
+      const cat = cats.find((c) => c.slug === slug);
+      document.getElementById('title').textContent = '分类：' + (cat ? cat.name : slug);
+      const page = Number(p.get('page')) || 1;
+      const data = await api('/api/posts?' + qs({ page, size: 10, category: slug }));
+      renderPostList(document.getElementById('posts'), data.items, '该分类下暂无文章');
+      renderPagination(document.getElementById('pagination'), data, (n) => '/category.html?' + qs({ slug, page: n }));
+    })().catch((e) => {
+      document.getElementById('posts').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# 依赖与构建
+node_modules/
+dist/
+
+# 本地运行时数据与临时产物
+local-data/
+.wrangler/
+.localtmp/
+.testtmp/
+.server.pid
+
+# 环境与编辑器
+.env
+*.log
+.DS_Store

@@ -1,0 +1,11 @@
+{
+  "wave": "W1",
+  "agent": "research/compliance",
+  "role_type": "writer",
+  "status": "done",
+  "artifacts": ["project/research/compliance.md"],
+  "summary": "合规底线：个人技术/生活用途，内容由作者负责。安全要求：密码不落库明文、会话签名 cookie、D1 全参数化、前台 XSS 受控渲染。不做 GDPR/等保级评审；无第三方个人信息存储。",
+  "decisions": [],
+  "open_questions": [],
+  "risks": []
+}

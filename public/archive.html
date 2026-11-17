@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>拾光集 · 归档</title>
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <header class="topnav">
+    <div class="container">
+      <a class="site" href="/">拾光集</a>
+      <nav>
+        <a href="/">首页</a>
+        <a href="/archive.html" class="active">归档</a>
+        <a href="/tags.html">标签</a>
+        <a href="/about.html">关于</a>
+        <a href="/search.html">搜索</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h1 class="page-title">归档</h1>
+    <div id="archive"></div>
+  </main>
+  <footer><div class="container">© 2026 拾光集 · Powered by Cloudflare Workers</div></footer>
+  <script src="/js/main.js"></script>
+  <script>
+    (async () => {
+      const years = await api('/api/archive');
+      const el = document.getElementById('archive');
+      if (!years.length) { el.innerHTML = '<div class="empty">暂无文章</div>'; return; }
+      el.innerHTML = years.map((y) => `
+        <h2 class="archive-year">${y.year}</h2>
+        ${y.months.map((m) => `
+          <div class="archive-month">${m.month} 月</div>
+          <ul class="archive-list">
+            ${m.posts.map((p) => `
+              <li><time>${(p.publishedAt || '').slice(5, 10)}</time>
+                <a href="/post.html?slug=${encodeURIComponent(p.slug)}">${esc(p.title)}</a></li>`).join('')}
+          </ul>`).join('')}`).join('');
+    })().catch((e) => {
+      document.getElementById('archive').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+    });
+  </script>
+</body>
+</html>
